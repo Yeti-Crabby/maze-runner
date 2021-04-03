@@ -1,0 +1,40 @@
+{
+  "name": "scratch-project",
+  "version": "1.0.0",
+  "description": "'Scratch Project'",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development webpack serve",
+    "test": "echo \"Error: we don't have a test specified yet 😢"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yeti-Crabby/scratch-project.git"
+  },
+  "author": "Emily Liu David Suh Kevin Park Vince Vu William Yoon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yeti-Crabby/scratch-project/issues"
+  },
+  "homepage": "https://github.com/Yeti-Crabby/scratch-project#readme",
+  "dependencies": {
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.14.0",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.30.0",
+    "webpack-dev-server": "^3.11.2",
+    "html-loader": "^0.5.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-react": "^7.13.13",
+    "webpack-cli": "^4.6.0"
+  }
+}

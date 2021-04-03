@@ -1,0 +1,22 @@
+.gridContainer {
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	column-gap: 0px;
+}
+
+
+.grid {
+	border: 3px solid black;
+	height:3em;
+	width:3em
+}
+
+.gridColor {
+	border: 3px solid black;
+	height:3em;
+	width:3em;
+	background-color: red;
+}

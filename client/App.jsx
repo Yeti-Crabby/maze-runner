@@ -2,7 +2,7 @@
  * ************************************
  *
  * @module  App.jsx
- * @author
+ * @authorM
  * @date
  * @description
  *
@@ -13,14 +13,16 @@
  import { render } from 'react-dom';
  import MainContainer from './containers/MainContainer.jsx';
 
- class App extends Component {
+class App extends Component {
   //  constructor(props) {
   //    super(props);
   //  }
 
-   render() {
+  render() {
+    console.log('OMFG IM IN APPs')
      return(
        <div>
+        App.jsx?ss
         <MainContainer/>
        </div>
      );

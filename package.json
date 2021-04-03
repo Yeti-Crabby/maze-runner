@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development webpack serve",
+    "dev": "NODE_ENV=development webpack serve --hot",
     "test": "echo \"Error: we don't have a test specified yet 😢"
   },
   "repository": {
@@ -21,20 +21,22 @@
   "dependencies": {
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.0",
-    "html-webpack-plugin": "^5.3.1",
+    "html-loader": "^0.5.5",
     "react": "^16.2.0",
     "react-dom": "^16.14.0",
+    "react-hot-loader": "^4.6.3",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
     "webpack": "^5.30.0",
-    "webpack-dev-server": "^3.11.2",
-    "html-loader": "^0.5.5"
+    "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/node": "^7.13.13",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
-    "webpack-cli": "^4.6.0"
+    "webpack-cli": "^4.6.0",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack-hot-middleware": "^2.24.3"
   }
 }

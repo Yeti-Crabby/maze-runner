@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -43,4 +44,5 @@ module.exports = {
   //   //enable HMR on the devserver
     hot: true,
   },
+  plugins: [new HtmlWebpackPlugin()],
 };

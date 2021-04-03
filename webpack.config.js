@@ -1,5 +1,3 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -7,42 +5,36 @@ module.exports = {
   entry: './client/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
+    publicPath: '/build/',
+    filename: 'bundle.js',
   },
 
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules)/,
+        test: /.(js|jsx)$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+        },
       },
       {
         test: /\.s[ac]ss$/i,
         exclude: /(node_modules)/,
         use: [
           // Creates 'style' nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
+          'sass-loader',
         ],
-      }
-    ]
+      },
+    ],
   },
 
-  devServer: {
-    publicPath: './',
-    // contentBase: './', // TELLS SERVER WHERE TO ... where to what!!!!
-    port: 8080,
-  //   //enable HMR on the devserver
-    hot: true,
+  resolve: {
+    // Enable importing JS / JSX files without specifying their extension
+    extensions: ['.js', '.jsx'],
   },
-  plugins: [new HtmlWebpackPlugin()],
 };

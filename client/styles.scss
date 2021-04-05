@@ -1,0 +1,180 @@
+
+.background {
+	/* background-image: url('https://wallpapercave.com/wp/wp6424612.jpg');
+	background-repeat: repeating-linear-gradient(); */
+	height: 60fr;
+	background-repeat: repeat;
+}
+  
+button {
+	border-radius: 0px;
+	width: 3em;
+	height: 3em;
+}
+
+.pageTitle {
+	// padding:10px;
+}
+		
+body {
+	background-color: #1f1f1f;
+}
+
+p {
+	margin-block-start: 0.1em;
+	margin-block-end: 0.1em;
+	font-size: 40px;
+	font-weight: bold;
+	color: white;
+	text-align: center;
+	font-family: 'Suez One', serif;
+}
+
+h1 {
+	background-color: #1f1f1f;
+	color: white;
+	text-align: center;
+	font-family: 'Suez One', serif;
+}
+
+.gap {
+	padding: 0.5em;
+}
+
+.gridContainer {
+	// background-color: rgb(167, 167, 167);
+	
+	display: grid;	
+	// background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/f3/BlankMap-USA-states.PNG");
+	background: radial-gradient(circle, black, white);
+
+	// border-radius: 5px;
+	padding: 0.5em;
+	grid-template-columns: repeat(30, 1fr);
+
+	margin: auto;
+	justify-content: center;
+
+	/* repeat(x, auto); x needs to match the row numbers from MainContainer.jsx*/
+	/* grid-template-rows: repeat(30, auto);  */
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	column-gap: 0px;
+	
+	/* viewport; might have to be replaced */
+	width: 60vw;
+	height: 60vh;
+}
+
+@media only screen and (max-width: 768px) {
+	/* For mobile phones: */
+	[class*="col-"] {
+	  width: 100%;
+	}
+}
+  
+
+.wallGrid {
+
+	background-color: black;
+	
+	/* background-color: rgb(255, 72, 72); */
+}
+.regularGrid {
+	background-color:white;
+	// border-color:transparent;
+}
+
+.gridColor {
+	/* border: 3px solid black; */
+	background-color: red;
+}
+.head {
+	background-color: rgb(41, 127, 197);
+	background: url('https://i1.sndcdn.com/avatars-000233416099-iokp17-t500x500.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.target {
+	/* background: rgb(101, 101, 204); */
+	background: url('https://i.pinimg.com/originals/6d/b0/32/6db0321da5910a614765c4f756677f5e.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.path {
+	background-color: white;
+	animation:addBlock 0.1s;
+	animation-fill-mode: forwards;
+	border-radius:0px;
+	border-style: groove;
+	// animation-direction:alternate;
+	// animation-play-state: running;
+	// animation-delay: 4s;
+}
+@keyframes addBlock{
+	0%   {background-color: white;}
+  100% {background-color: rgb(30, 60, 233);}
+}
+
+@keyframes onFire {
+	0%   {background-color: rgba(230, 57, 57, 0.966);}
+	50%  {background-color: rgb(90, 19, 19);}
+	100% {background-color: rgb(58, 28, 28);}
+}
+
+.onFire {
+	background-color: white;
+	animation-name: onFire;
+	animation-duration: 4s;
+	animation-fill-mode: forwards;
+}
+
+@for $i from 0 through 100 {
+	.anim-delay-#{$i} {
+			animation-delay: #{$i * 0.1}s;
+	}
+}
+
+
+/* .anim-delay-500ms   { animation-delay: 0.5s }
+.anim-delay-1000ms  { animation-delay: 1s }
+.anim-delay-1500ms  { animation-delay: 1.5s }
+.anim-delay-2000ms  { animation-delay: 2s }
+.anim-delay-2500ms   { animation-delay: 2.5s }
+.anim-delay-3000ms  { animation-delay: 3s }
+.anim-delay-3500ms  { animation-delay: 3.5s }
+.anim-delay-4000ms  { animation-delay: 4s }
+.anim-delay-4500ms  { animation-delay: 4.5s }
+.anim-delay-5000ms  { animation-delay: 5s }
+.anim-delay-5500ms  { animation-delay: 5.5s }
+.anim-delay-6000ms  { animation-delay: 6s }
+.anim-delay-6500ms  { animation-delay: 6.5s }
+.anim-delay-7000ms  { animation-delay: 7s }
+.anim-delay-7500ms  { animation-delay: 7.5s }
+.anim-delay-8000ms  { animation-delay: 8s } */
+/* .e {
+	height: 10fr;
+	width: 10fr;
+	background-color: rgb(253, 184, 55);
+   -webkit-animation: load 5s infinite;
+   animation: load 5s infinite;
+    display:none;
+} */
+
+.navbarContainer {
+	display:flex;
+	flex-direction: row;
+	justify-content:center;
+	align-items:center;
+	
+}
+
+.navbarButton {
+	padding: 10px;
+}
+
+/* https://cdn.shopify.com/s/files/1/1061/1924/products/Sunglasses_Emoji_be26cc0a-eef9-49e5-8da2-169bb417cc0b_large.png?v=1571606036 */

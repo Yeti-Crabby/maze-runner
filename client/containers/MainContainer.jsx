@@ -26,18 +26,22 @@
        entryNodeMode: false,
        targetNodeMode: false,
        wallMode: false,
+       headPosition: '0,0',
+       targetPosition: '9,9',
+       path: [],
      };
      this.addWallMode = this.addWallMode.bind(this);
      this.entryNodeMode = this.entryNodeMode.bind(this);
      this.targetNodeMode = this.targetNodeMode.bind(this);
+     this.algorithm = this.algorithm.bind(this);
    }
 
  // [{x:0, y:0}, {x:0, y:1}, {x:0, y:2} {x:1, y:0}, {x:1, y:1}, {x:1, y:2}]
 
   componentDidMount() {
     const board = {};
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
+    for (let i = 0; i < 20; i++) {
+      for (let j = 0; j < 20; j++) {
         board[`${i},${j}`] = {
           visited: false,
         }
@@ -51,7 +55,7 @@
       entryNodeMode: false,
       targetNodeMode: false,
       wallMode: true,
-    })
+    }, function(){console.log('addwallmode', this.state)})
    }
 
    entryNodeMode() {
@@ -59,7 +63,7 @@
       entryNodeMode: true,
       targetNodeMode: false,
       wallMode: false,    
-     })
+     }, function() {console.log('entrynodemode', this.state)})
    }
 
    targetNodeMode(){
@@ -67,11 +71,13 @@
       entryNodeMode: false,
       targetNodeMode: true,
       wallMode: false,
-    })
+    }, function(){console.log('targetnodemode', this.state)})
    }
 
    handleMouseDown(property) {
-     if(this.state.addWallMode === false) return;
+     if(this.state.wallMode === false){
+        return;
+     }
      const board = {...this.state.board}
      board[property].visited = true;
      board[property].wall = true;
@@ -86,41 +92,54 @@
   // onmouseup={()=>{handleMouseUp(x,y)}}
   //}><button/>
    handleMouseEnter(property) {
-    if(this.state.addWallMode === false) return;
-     if(this.state.mouseIsPressed === false){
-       return;
-     }
+    if(this.state.wallMode === false || this.state.mouseIsPressed === false){
+      // console.log('wtf this is false');
+      return;
+    }
     const board = {...this.state.board}
     board[property].visited = true;
     board[property].wall = true;
     this.setState({board: board});
-    console.log(board)
+    // console.log(board)
     //  if (!this.state.mouseIsPressed) return;
     //  const board = this.state.board.slice();
     //  board[`${x},${y}`].visited = true;
     //  board[`${x},${y}`].wall = true;
     //  this.setState({board: board});
-     console.log("HOVERING")
+    //  console.log("HOVERING")kjhkjhkjhkj
    }
 
   handleMouseUp() {
-    if(this.state.addWallMode === false) return;
+    console.log('mouseUP')
+    if(this.state.wallMode === false) return;
     this.setState({mouseIsPressed: false});
-    console.log("MOUSE UP")
+    // console.log("MOUSE UP")
+   }
+
+   handleHead(coordinates) {
+     if(this.state.entryNodeMode === false) return;
+     this.setState({headPosition: coordinates})
+   }
+
+   handleTarget(coordinates) {
+     //coordinates = '0,2'
+     if(this.state.targetNodeMode === false) return;
+     this.setState({targetPosition: coordinates})
    }
 
    algorithm() {
     /////
-    const nodes = {};
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        nodes[`${i},${j}`] = {
-          visited: false,
-        }
-      }
-    }
-    const head = '0,0';
-    const target = '9,8';
+
+    const nodes = Object.assign(this.state.board);
+    // for (let i = 0; i < 10; i++) {
+    //   for (let j = 0; j < 10; j++) {
+    //     nodes[`${i},${j}`] = {
+    //       visited: false,
+    //     }
+    //   }
+    // }
+    const head = this.state.headPosition;
+    const target = this.state.targetPosition;
     // const target = nodes['2,1']
 
     nodes[head].visited = true;
@@ -149,7 +168,8 @@
             previousNode = nodes[previousNode].previousNode;
           }
           // console.log('inside base case', JSON.stringify(nodes));
-          return console.log(path);
+          console.log('path1', path);
+          return path;
         }
       }
       // queue -------> [{'0,0': {visited: true}}]
@@ -187,10 +207,16 @@
       queue.shift(); // <--- removes first element from array
       // console.log('queueEEE', JSON.stringify(queue))
       // console.log('NODEEEEEE', JSON.stringify(nodes))
-      helper(queue.slice());
+      return helper(queue.slice());
     }
-
-    helper(queue);
+    
+    const array = helper(queue);
+    array.pop();
+    const path = array.reverse();
+    console.log('path', path)
+    // console.log(helper(queue))
+    // console.log('2', path)
+    this.setState({path: path})
   }
 
    render() {
@@ -199,18 +225,49 @@
 
      for(const property in board){
       let id = property;
-      if(board[property].wall === true){
+      if(this.state.path.includes(property)){
+        grid.push(<button id={id} className = 'path'
+        onMouseDown={() => {this.handleMouseDown(property)}}
+        onMouseOver={() => {this.handleMouseEnter(property)}}
+        onMouseUp={() => {this.handleMouseUp(property)}}
+        onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+        >
+        </button>)
+      }
+      else if(property === this.state.headPosition){
+        grid.push(<button id={id} className = 'head'
+        onMouseDown={() => {this.handleMouseDown(property)}}
+        onMouseOver={() => {this.handleMouseEnter(property)}}
+        onMouseUp={() => {this.handleMouseUp(property)}}
+        onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+        >
+        </button>)
+      }
+      else if(property === this.state.targetPosition){
+        grid.push(<button id={id} className = 'target'
+        onMouseDown={() => {this.handleMouseDown(property)}}
+        onMouseOver={() => {this.handleMouseEnter(property)}}
+        onMouseUp={() => {this.handleMouseUp(property)}}
+        onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+        >
+        </button>)
+      }
+      else if(board[property].wall === true){
         grid.push(<button id={id} className = 'wallGrid'
         onMouseDown={() => {this.handleMouseDown(property)}}
         onMouseOver={() => {this.handleMouseEnter(property)}}
-        onMouseUp={() => {this.handleMouseUp(property)}}>
+        onMouseUp={() => {this.handleMouseUp(property)}}
+        onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+        >
         </button>)
       }
       else {
       grid.push(<button id={id} className = 'regularGrid'
       onMouseDown={() => {this.handleMouseDown(property)}}
       onMouseOver={() => {this.handleMouseEnter(property)}}
-      onMouseUp={() => {this.handleMouseUp(property)}}>
+      onMouseUp={() => {this.handleMouseUp(property)}}
+      onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+      >
       </button>)
       }
     }
@@ -219,7 +276,7 @@
 
        <div >
           <div className = 'navbar'>
-          <Navbar addWallMode={this.addWallMode} entryNodeMode={this.entryNodeMode} targetNodeMode={this.targetNodeMode}/>
+          <Navbar runAlgo={this.algorithm} addWallMode={this.addWallMode} entryNodeMode={this.entryNodeMode} targetNodeMode={this.targetNodeMode}/>
           </div>
           <div className='gridContainer'>
             {grid}

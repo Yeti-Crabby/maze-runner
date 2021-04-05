@@ -39,7 +39,7 @@ class Navbar extends Component {
             </Typography>
             <Button id="startNode" color="inherit">Start Node</Button>
             <Button id="targetNode" color="inherit">Target Node</Button>
-            <Button onClick={props.addWallMode} id="wallNode" color="inherit">Add Walls</Button>
+            <Button onClick={this.props.addWallMode} id="wallNode" color="inherit">Add Walls</Button>
             <Button id="clearBoard" color="inherit">Clear Board</Button>
             <Button id="runAlgo" color="inherit">Run Algo</Button>
           </Toolbar>

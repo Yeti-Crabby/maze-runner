@@ -37,11 +37,11 @@ class Navbar extends Component {
             >
               Path Finder
             </Typography>
-            <Button id="startNode" color="inherit">Start Node</Button>
-            <Button id="targetNode" color="inherit">Target Node</Button>
+            <Button onClick={this.props.entryNodeMode} id="startNode" color="inherit">Start Node</Button>
+            <Button onClick={this.props.targetNodeMode} id="targetNode" color="inherit">Target Node</Button>
             <Button onClick={this.props.addWallMode} id="wallNode" color="inherit">Add Walls</Button>
             <Button id="clearBoard" color="inherit">Clear Board</Button>
-            <Button id="runAlgo" color="inherit">Run Algo</Button>
+            <Button onClick={this.props.runAlgo} id="algo" color="inherit">Run Algo</Button>
           </Toolbar>
         </AppBar>
       </div>

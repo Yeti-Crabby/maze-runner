@@ -1,16 +1,20 @@
 .gridContainer {
-	display: grid;
-	grid-template-columns: repeat(10, 1fr);
-	grid-template-rows: repeat(10, 1fr);
+	display: grid;	
+	padding-top: 50px;
+	/* margin: auto; */
+	grid-template-columns: repeat(20, 1fr);
+	/* grid-template-rows: repeat(20, 1fr); */
 	grid-column-gap: 0px;
 	grid-row-gap: 0px;
 	column-gap: 0px;
+	width: 50vw;
+	height: 70vh;
 }
 
 .wallGrid {
 	background-color: red;
-	height: 3em;
-	width: 3em;
+	height: 10fr;
+	width: 10fr;
 }
 .regularGrid {
 	height: 3em;
@@ -24,7 +28,24 @@
 
 .gridColor {
 	border: 3px solid black;
-	height:3em;
-	width:3em;
+	height:10fr;
+	width:10fr;
 	background-color: red;
+}
+.head {
+	background-color: green;
+	height: 10fr;
+	width: 10fr;
+}
+
+.target {
+	background-color: blue;
+	height: 10fr;
+	width: 10fr;
+}
+
+.path {
+	background-color: orange;
+	height: 10fr;
+	width: 10fr;
 }

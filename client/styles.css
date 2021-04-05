@@ -7,7 +7,15 @@
 	column-gap: 0px;
 }
 
-
+.wallGrid {
+	background-color: red;
+	height: 3em;
+	width: 3em;
+}
+.regularGrid {
+	height: 3em;
+	width: 3em
+}
 .grid {
 	border: 3px solid black;
 	height:3em;

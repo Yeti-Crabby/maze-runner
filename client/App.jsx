@@ -21,7 +21,6 @@ class App extends Component {
     return (
       <div>
         <MainContainer/>
-        <h1>HOT MODULE STUFNOOOOF!!!</h1>
       </div>
     );
   }

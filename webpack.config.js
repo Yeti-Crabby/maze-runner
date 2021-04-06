@@ -22,7 +22,7 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         exclude: /(node_modules)/,
         use: [
-          // Creates `style` nodes from JS strings
+          // Creates 'style' nodes from JS strings
           'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
@@ -30,29 +30,6 @@ module.exports = {
           'sass-loader',
         ],
       },
-      // {
-      //   test: /\.scss$/,
-      //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //       options: {
-      //         name: './styles.css',
-      //       },
-      //     },
-      //     {
-      //       loader: 'extract-loader',
-      //     },
-      //     {
-      //       loader: 'css-loader?-url',
-      //     },
-      //     {
-      //       loader: 'postcss-loader',
-      //     },
-      //     {
-      //       loader: 'sass-loader',
-      //     },
-      //   ],
-      // },
       {
         test: /\.(png|jpg)$/,
         loader: 'url-loader',

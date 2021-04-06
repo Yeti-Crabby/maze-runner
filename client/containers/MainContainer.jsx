@@ -11,6 +11,7 @@
 
  import React, { Component } from 'react';
  import Navbar from '../Navbar.jsx';
+ import '../styles.scss';
 
  // import from child components...
 
@@ -29,25 +30,29 @@
        headPosition: '0,0',
        targetPosition: '9,9',
        path: [],
+       onFire: [],
      };
      this.addWallMode = this.addWallMode.bind(this);
      this.entryNodeMode = this.entryNodeMode.bind(this);
      this.targetNodeMode = this.targetNodeMode.bind(this);
      this.algorithm = this.algorithm.bind(this);
+     this.clearBoard = this.clearBoard.bind(this);
    }
 
  // [{x:0, y:0}, {x:0, y:1}, {x:0, y:2} {x:1, y:0}, {x:1, y:1}, {x:1, y:2}]
 
   componentDidMount() {
     const board = {};
-    for (let i = 0; i < 20; i++) {
-      for (let j = 0; j < 20; j++) {
+    this.state.onFire = [];
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {
           visited: false,
         }
       }
     }
      this.setState({board})
+     console.log(this.state)
    }
 
    addWallMode(){
@@ -62,7 +67,7 @@
      this.setState({
       entryNodeMode: true,
       targetNodeMode: false,
-      wallMode: false,    
+      wallMode: false,
      }, function() {console.log('entrynodemode', this.state)})
    }
 
@@ -75,6 +80,7 @@
    }
 
    handleMouseDown(property) {
+     console.log(property)
      if(this.state.wallMode === false){
         return;
      }
@@ -127,8 +133,42 @@
      this.setState({targetPosition: coordinates})
    }
 
+   clearBoard() {
+    const board = {};
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 30; j++) {
+        board[`${i},${j}`] = {
+          visited: false,
+        }
+      }
+    }
+     this.setState({
+      board:board,
+      mouseIsPressed: false,
+      entryNodeMode: false,
+      targetNodeMode: false,
+      wallMode: false,
+      path: [],
+      onFire: [],
+     })
+   }
+
    algorithm() {
     /////
+    if(this.state.path.length !== 0){
+      const board = Object.assign(this.state.board);
+      console.log('1', JSON.stringify(board))
+      for(const property in board){
+        // console.log(this.state.board[property])
+        board[property].visited = false;
+        if(board[property].previousNode) delete board[property].previousNode
+      }
+      console.log('2', JSON.stringify(board))
+      this.setState({
+        board: board,
+        path: [],
+      })
+    }
 
     const nodes = Object.assign(this.state.board);
     // for (let i = 0; i < 10; i++) {
@@ -147,13 +187,14 @@
     // nodes['0,0'].head = true;
     // nodes['2,1'].target = true;
     const queue = [{[head]: nodes[head]}];
+    const fire = this.state.onFire.slice();
 
 
     // // console.log(nodes)
 
-    function helper(queue) {
+    function helper(queue, fire) {
       // console.log('base queue every time helper is called', JSON.stringify(queue))
-
+      console.log('fireeee', fire)
       for(let i=0; i<queue.length; i++){
         if(Object.keys(queue[i]) == target){
           const path = [];
@@ -190,6 +231,7 @@
           // console.log('check','i', i, nodes[newPosition])
           if (nodes[newPosition] !== undefined && nodes[newPosition].visited === false) {
             nodes[newPosition].visited = true;
+            fire.push(newPosition);
             // console.log("WHY THE FUCK", nodes[newPosition])
 
             nodes[newPosition].previousNode = string;
@@ -198,25 +240,47 @@
           }
           if (nodes[newPosition2] !== undefined && nodes[newPosition2].visited === false) {
             nodes[newPosition2].visited = true;
+            fire.push(newPosition2);
             // nodes[newPosition2].previousNode = {[position]: nodes[position]};
             nodes[newPosition2].previousNode = string;
             queue.push({ [newPosition2]: nodes[newPosition2] })
           }
         }
       }
-      queue.shift(); // <--- removes first element from array
+      queue.shift();
+      console.log('queue', queue)
+      if(queue.length === 0){
+        return undefined;
+      } // <--- removes first element from array
       // console.log('queueEEE', JSON.stringify(queue))
       // console.log('NODEEEEEE', JSON.stringify(nodes))
-      return helper(queue.slice());
+      return helper(queue.slice(), fire);
     }
-    
-    const array = helper(queue);
+
+
+
+    const array = helper(queue, fire);
+    if(array === undefined){
+      alert('No path found. Try again.')
+    }
     array.pop();
     const path = array.reverse();
     console.log('path', path)
+    console.log('fire', fire)
     // console.log(helper(queue))
     // console.log('2', path)
-    this.setState({path: path})
+    fire.pop();
+    const finalFire = fire.slice();
+
+    setTimeout(function(){
+      console.log('settimeeout')
+      return this.setState({
+        onFire: [],
+        path: path,
+      })
+    }.bind(this), finalFire.length*25)
+
+    this.setState({path: path, onFire: finalFire})
   }
 
    render() {
@@ -225,8 +289,23 @@
 
      for(const property in board){
       let id = property;
-      if(this.state.path.includes(property)){
-        grid.push(<button id={id} className = 'path'
+
+      if(this.state.onFire.includes(property) && this.state.onFire.length !== 0){
+          grid.push(<button id={id} className = {'onFire'
+          + ' ' + 'anim-delay-' + this.state.onFire.indexOf(property)}
+          onMouseDown={() => {this.handleMouseDown(property)}}
+          onMouseOver={() => {this.handleMouseEnter(property)}}
+          onMouseUp={() => {this.handleMouseUp(property)}}
+          onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+          >
+          </button>)
+        // }
+      }
+        // if(this.state.path.includes(property))
+        // }
+      else if(this.state.path.includes(property)){
+        grid.push(<button id={id} className = {'path'
+        + ' ' + 'anim-delay-2-' + this.state.path.indexOf(property)}
         onMouseDown={() => {this.handleMouseDown(property)}}
         onMouseOver={() => {this.handleMouseEnter(property)}}
         onMouseUp={() => {this.handleMouseUp(property)}}
@@ -275,9 +354,10 @@
      return(
 
        <div >
-          <div className = 'navbar'>
-          <Navbar runAlgo={this.algorithm} addWallMode={this.addWallMode} entryNodeMode={this.entryNodeMode} targetNodeMode={this.targetNodeMode}/>
+          <div className='navbar'>
+          <Navbar clearBoard={this.clearBoard} runAlgo={this.algorithm} addWallMode={this.addWallMode} entryNodeMode={this.entryNodeMode} targetNodeMode={this.targetNodeMode}/>
           </div>
+          <div className='gap'></div>
           <div className='gridContainer'>
             {grid}
           </div>

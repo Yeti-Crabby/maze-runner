@@ -1,14 +1,14 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: './client/index.js',
+  entry: ['./client/index.js', './client/styles.scss'],
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/build/',
     filename: 'bundle.js',
   },
-
   module: {
     rules: [
       {
@@ -32,21 +32,27 @@ module.exports = {
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url-loader'
-      }
-      ,
+        loader: 'url-loader',
+      },
       {
         test: /\.(png|jpg)$/,
-        loader: 'file-loader'
-      }
+        loader: 'file-loader',
+      },
     ],
   },
-
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/index.html',
+    }),
+  ],
   resolve: {
     // Enable importing JS / JSX files without specifying their extension
     extensions: ['.js', '.jsx'],
   },
   devServer: {
-    port: 8080
-  }
+    port: 8080,
+    historyApiFallback: {
+      index: '/client/index.html',
+    },
+  },
 };

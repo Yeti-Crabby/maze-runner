@@ -43,6 +43,7 @@
 
   componentDidMount() {
     const board = {};
+    this.state.onFire = [];
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {
@@ -51,6 +52,7 @@
       }
     }
      this.setState({board})
+     console.log(this.state)
    }
 
    addWallMode(){
@@ -65,7 +67,7 @@
      this.setState({
       entryNodeMode: true,
       targetNodeMode: false,
-      wallMode: false,    
+      wallMode: false,
      }, function() {console.log('entrynodemode', this.state)})
    }
 
@@ -147,6 +149,7 @@
       targetNodeMode: false,
       wallMode: false,
       path: [],
+      onFire: [],
      })
    }
 
@@ -244,13 +247,22 @@
           }
         }
       }
-      queue.shift(); // <--- removes first element from array
+      queue.shift();
+      console.log('queue', queue)
+      if(queue.length === 0){
+        return undefined;
+      } // <--- removes first element from array
       // console.log('queueEEE', JSON.stringify(queue))
       // console.log('NODEEEEEE', JSON.stringify(nodes))
       return helper(queue.slice(), fire);
     }
-    
+
+
+
     const array = helper(queue, fire);
+    if(array === undefined){
+      alert('No path found. Try again.')
+    }
     array.pop();
     const path = array.reverse();
     console.log('path', path)
@@ -259,6 +271,15 @@
     // console.log('2', path)
     fire.pop();
     const finalFire = fire.slice();
+
+    setTimeout(function(){
+      console.log('settimeeout')
+      return this.setState({
+        onFire: [],
+        path: path,
+      })
+    }.bind(this), finalFire.length*25)
+
     this.setState({path: path, onFire: finalFire})
   }
 
@@ -268,19 +289,23 @@
 
      for(const property in board){
       let id = property;
-      if(this.state.onFire.includes(property)){
-        grid.push(<button id={id} className = {'onFire'
-        + ' ' + 'anim-delay-' + this.state.onFire.indexOf(property)}
-        onMouseDown={() => {this.handleMouseDown(property)}}
-        onMouseOver={() => {this.handleMouseEnter(property)}}
-        onMouseUp={() => {this.handleMouseUp(property)}}
-        onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
-        >
-        </button>)
+
+      if(this.state.onFire.includes(property) && this.state.onFire.length !== 0){
+          grid.push(<button id={id} className = {'onFire'
+          + ' ' + 'anim-delay-' + this.state.onFire.indexOf(property)}
+          onMouseDown={() => {this.handleMouseDown(property)}}
+          onMouseOver={() => {this.handleMouseEnter(property)}}
+          onMouseUp={() => {this.handleMouseUp(property)}}
+          onClick={()=> {this.handleHead(property); this.handleTarget(property)}}
+          >
+          </button>)
+        // }
       }
+        // if(this.state.path.includes(property))
+        // }
       else if(this.state.path.includes(property)){
         grid.push(<button id={id} className = {'path'
-        + ' ' + 'anim-delay-' + this.state.path.indexOf(property)}
+        + ' ' + 'anim-delay-2-' + this.state.path.indexOf(property)}
         onMouseDown={() => {this.handleMouseDown(property)}}
         onMouseOver={() => {this.handleMouseEnter(property)}}
         onMouseUp={() => {this.handleMouseUp(property)}}

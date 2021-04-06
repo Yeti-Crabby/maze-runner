@@ -1,21 +1,19 @@
-
 .background {
-	/* background-image: url('https://wallpapercave.com/wp/wp6424612.jpg');
-	background-repeat: repeating-linear-gradient(); */
-	height: 60fr;
-	background-repeat: repeat;
+	// background-image: url('https://wallpapercave.com/wp/wp6424612.jpg');
+	// background-repeat: no-repeat;
+	// background-position: center;
+	// background-size: 1200px 900px;
+	height: 100fr;
 }
-  
+
 button {
 	border-radius: 0px;
 	width: 3em;
 	height: 3em;
+	opacity: 0.6;
 }
 
-.pageTitle {
-	// padding:10px;
-}
-		
+
 body {
 	background-color: #1f1f1f;
 }
@@ -38,16 +36,12 @@ h1 {
 }
 
 .gap {
-	padding: 0.5em;
+	padding: 0.3em;
 }
 
 .gridContainer {
-	// background-color: rgb(167, 167, 167);
-	
-	display: grid;	
-	// background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/f3/BlankMap-USA-states.PNG");
-	background: radial-gradient(circle, black, white);
-
+	height: 50%;
+	display: grid;
 	// border-radius: 5px;
 	padding: 0.5em;
 	grid-template-columns: repeat(30, 1fr);
@@ -60,10 +54,10 @@ h1 {
 	grid-column-gap: 0px;
 	grid-row-gap: 0px;
 	column-gap: 0px;
-	
+
 	/* viewport; might have to be replaced */
 	width: 60vw;
-	height: 60vh;
+	height: 65vh;
 }
 
 @media only screen and (max-width: 768px) {
@@ -72,73 +66,89 @@ h1 {
 	  width: 100%;
 	}
 }
-  
 
 .wallGrid {
-
 	background-color: black;
-	
-	/* background-color: rgb(255, 72, 72); */
+	opacity: 0.3;
 }
 .regularGrid {
 	background-color:white;
-	// border-color:transparent;
 }
 
-.gridColor {
-	/* border: 3px solid black; */
-	background-color: red;
-}
 .head {
 	background-color: rgb(41, 127, 197);
-	background: url('https://i1.sndcdn.com/avatars-000233416099-iokp17-t500x500.jpg');
+	background: url('https://media.tenor.com/images/46b8aa3319ea36727ca0b0dc702cbcbd/tenor.gif');
+	// background: url('https://i1.sndcdn.com/avatars-000233416099-iokp17-t500x500.jpg');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+	opacity: 1.0;
 }
 
 .target {
 	/* background: rgb(101, 101, 204); */
-	background: url('https://i.pinimg.com/originals/6d/b0/32/6db0321da5910a614765c4f756677f5e.png');
+	background: url('https://yt3.ggpht.com/ytc/AAUvwnh_qb-oVGuDhNc7IPtKIXXUTzH56th0i8hU5ieibFA=s900-c-k-c0x00ffffff-no-rj');
+	// background: url('https://i.pinimg.com/originals/6d/b0/32/6db0321da5910a614765c4f756677f5e.png');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+	opacity: 1.0;
 }
 
 .path {
 	background-color: white;
-	animation:addBlock 0.1s;
+	animation:addBlock 0.2s;
 	animation-fill-mode: forwards;
 	border-radius:0px;
 	border-style: groove;
+	opacity: 0.4;
 	// animation-direction:alternate;
 	// animation-play-state: running;
 	// animation-delay: 4s;
 }
+
 @keyframes addBlock{
 	0%   {background-color: white;}
-  100% {background-color: rgb(30, 60, 233);}
+  100% {background-color: rgb(168, 15, 15); opacity: 0.9}
 }
 
 @keyframes onFire {
-	0%   {background-color: rgba(230, 57, 57, 0.966);}
-	50%  {background-color: rgb(90, 19, 19);}
-	100% {background-color: rgb(58, 28, 28);}
+	0%   {background-color: transparent; opacity: 0}
+	100% {background-color: rgb(73, 190, 236); opacity: 0.3}
+
 }
 
 .onFire {
 	background-color: white;
-	animation-name: onFire;
-	animation-duration: 4s;
+	animation-name: onFire !important;
+	animation-duration: 0.3s;
 	animation-fill-mode: forwards;
 }
 
-@for $i from 0 through 100 {
+// .path {
+// 	background-color: white;
+// 	animation:addBlock 0.1s;
+// 	animation-fill-mode: forwards;
+// 	border-radius:0px;
+// 	border-style: groove;
+// 	opacity: 1.0;
+// 	// animation-direction:alternate;
+// 	// animation-play-state: running;
+// 	// animation-delay: 4s;
+// }
+
+@for $i from 0 through 600 {
 	.anim-delay-#{$i} {
-			animation-delay: #{$i * 0.1}s;
+			animation-delay: #{$i * 0.025}s;
 	}
 }
 
+
+@for $i from 0 through 200 {
+	.anim-delay-2-#{$i} {
+			animation-delay: #{$i * 0.1}s;
+	}
+}
 
 /* .anim-delay-500ms   { animation-delay: 0.5s }
 .anim-delay-1000ms  { animation-delay: 1s }
@@ -170,11 +180,28 @@ h1 {
 	flex-direction: row;
 	justify-content:center;
 	align-items:center;
-	
+
 }
 
 .navbarButton {
-	padding: 10px;
+	opacity: 1.0;
+	width: auto;
+	height: auto;
 }
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-text{
+	padding-right: 50px;
+	padding-left: 50px;
+	// text-align: center;
+	// font-family: 'Dela Gothic';
+
+	font-size: 20px; 
+	text-transform: uppercase;
+}
+
+
+/*
+className: "MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary navbarContainer MuiPaper-elevation4"
+*/
 
 /* https://cdn.shopify.com/s/files/1/1061/1924/products/Sunglasses_Emoji_be26cc0a-eef9-49e5-8da2-169bb417cc0b_large.png?v=1571606036 */

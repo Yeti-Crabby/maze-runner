@@ -32,15 +32,15 @@ class Navbar extends Component {
       >
         <AppBar position="static" className="navbarContainer">
           <Toolbar>
-            <Typography variant="h6" 
-            // className={classes.title}
-            >
-            </Typography>
-            <Button className = 'navbarButton' onClick={this.props.entryNodeMode} id="startNode" color="inherit">Start Node</Button>
-            <Button className = 'navbarButton' onClick={this.props.targetNodeMode} id="targetNode" color="inherit">Target Node</Button>
+            {/* <Typography variant="h6"  */}
+            {/* // className={classes.title} */}
+            {/* // > */}
+            {/* // </Typography> */}
+            <Button className = 'navbarButton' onClick={this.props.entryNodeMode} id="startNode" color="inherit">Set Start Node</Button>
+            <Button className = 'navbarButton' onClick={this.props.targetNodeMode} id="targetNode" color="inherit">Set Target Node</Button>
             <Button className = 'navbarButton' onClick={this.props.addWallMode} id="wallNode" color="inherit">Add Walls</Button>
             <Button className = 'navbarButton' onClick={this.props.clearBoard} id="clearBoard" color="inherit">Clear Board</Button>
-            <Button className = 'navbarButton' onClick={this.props.runAlgo} id="algo" color="inherit">Run Algo</Button>
+            <Button className = 'navbarButton' onClick={this.props.runAlgo} id="algo" color="inherit">Run Algorithm</Button>
           </Toolbar>
         </AppBar>
       </div>

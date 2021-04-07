@@ -6,7 +6,7 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      board: {}, 
+      board: {},
       mouseIsPressed: false,
       entryNodeMode: false,
       targetNodeMode: false,
@@ -26,6 +26,8 @@ class MainContainer extends Component {
   // initialize the board state as an empty object
   // and populate it with object { `y, x`: { visited: false }, }
   componentDidMount() {
+    const board = {};
+    this.state.onFire = [];
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {
@@ -34,7 +36,7 @@ class MainContainer extends Component {
       }
     }
     this.setState({ board });
-    // console.log('this.setState({ board });', this.state)
+    // console.log(this.state);
   }
 
   // enable wall mode
@@ -131,10 +133,10 @@ class MainContainer extends Component {
       onFire: [],
     });
   }
-  
+
   algorithm() {
-    const {headPosition, targetPosition, board, path, onFire } = this.state
-    
+    const { headPosition, targetPosition, board, path, onFire } = this.state;
+
     if (path.length !== 0) {
       const board = Object.assign(board);
       // console.log('1', JSON.stringify(board));
@@ -159,7 +161,7 @@ class MainContainer extends Component {
     const queue = [{ [head]: nodes[head] }];
     const fire = onFire.slice();
 
-    const helper = (queue, fire) => { 
+    const helper = (queue, fire) => {
       // console.log('base queue every time helper is called', JSON.stringify(queue))
       // console.log('fire:', fire);
       for (let i = 0; i < queue.length; i++) {
@@ -182,10 +184,10 @@ class MainContainer extends Component {
         if (i !== 0) {
           const newPosition = `${Number(arrPosition[0]) + i},${Number(
             arrPosition[1]
-          )}`; 
+          )}`;
           const newPosition2 = `${Number(arrPosition[0])},${
             Number(arrPosition[1]) + i
-          }`; 
+          }`;
 
           if (
             nodes[newPosition] !== undefined &&
@@ -213,14 +215,14 @@ class MainContainer extends Component {
       if (queue.length === 0) return undefined;
 
       return helper(queue.slice(), fire);
-    }
+    };
 
     const array = helper(queue, fire);
     if (array === undefined) {
       alert('No path found. Try again.');
     }
     array.pop();
-    const path = array.reverse();
+    const path1 = array.reverse();
     // console.log('path', path);
     // console.log('fire', fire);
     fire.pop();
@@ -231,7 +233,7 @@ class MainContainer extends Component {
         console.log('settimeeout');
         return this.setState({
           onFire: [],
-          path: path,
+          path: path1,
         });
       }.bind(this),
       finalFire.length * 25
@@ -240,14 +242,11 @@ class MainContainer extends Component {
   }
 
   render() {
-    const { board, onFire, pathpath, headPosition, targetPosition} = this.state;
+    const { board, onFire, path, headPosition, targetPosition } = this.state;
     const grid = [];
     for (const property in board) {
       let id = property;
-      if (
-        onFire.includes(property) &&
-        onFire.length !== 0
-      ) {
+      if (onFire.includes(property) && onFire.length !== 0) {
         grid.push(
           <button
             id={id}
@@ -269,15 +268,11 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      }
-
-      else if (path.includes(property)) {
+      } else if (path.includes(property)) {
         grid.push(
           <button
             id={id}
-            className={
-              'path' + ' ' + 'anim-delay-2-' + path.indexOf(property)
-            }
+            className={'path' + ' ' + 'anim-delay-2-' + path.indexOf(property)}
             onMouseDown={() => {
               this.handleMouseDown(property);
             }}

@@ -37,7 +37,6 @@ class MainContainer extends Component {
     this.setState({ board });
     // console.log(this.state);
   }
-
   // enable wall mode
   addWallMode() {
     this.setState(
@@ -51,7 +50,6 @@ class MainContainer extends Component {
       }
     );
   }
-
   entryNodeMode() {
     this.setState(
       {
@@ -64,7 +62,6 @@ class MainContainer extends Component {
       }
     );
   }
-
   targetNodeMode() {
     this.setState(
       {
@@ -77,7 +74,6 @@ class MainContainer extends Component {
       }
     );
   }
-
   handleMouseDown(property) {
     if (this.state.wallMode === false) {
       return;
@@ -87,7 +83,6 @@ class MainContainer extends Component {
     board[property].wall = true;
     this.setState({ board: board, mouseIsPressed: true });
   }
-
   handleMouseEnter(property) {
     if (this.state.wallMode === false || this.state.mouseIsPressed === false) {
       return;
@@ -97,22 +92,18 @@ class MainContainer extends Component {
     board[property].wall = true;
     this.setState({ board: board });
   }
-
   handleMouseUp() {
     if (this.state.wallMode === false) return;
     this.setState({ mouseIsPressed: false });
   }
-
   handleHead(coordinates) {
     if (this.state.entryNodeMode === false) return;
     this.setState({ headPosition: coordinates });
   }
-
   handleTarget(coordinates) {
     if (this.state.targetNodeMode === false) return;
     this.setState({ targetPosition: coordinates });
   }
-
   clearBoard() {
     const board = {};
     for (let i = 0; i < 15; i++) {
@@ -132,7 +123,6 @@ class MainContainer extends Component {
       onFire: [],
     });
   }
-
   algorithm() {
     const { headPosition, targetPosition, board, path, onFire } = this.state;
 

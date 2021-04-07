@@ -1,133 +1,8 @@
-import React, { Component } from "react";
-import Navbar from "../Navbar.jsx";
-import "../styles.scss";
-
-class MainContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      board: {},
-      mouseIsPressed: false,
-      entryNodeMode: false,
-      targetNodeMode: false,
-      wallMode: false,
-      headPosition: "0,0",
-      targetPosition: "9,9",
-      path: [],
-      onFire: [],
-    };
-    this.addWallMode = this.addWallMode.bind(this);
-    this.entryNodeMode = this.entryNodeMode.bind(this);
-    this.targetNodeMode = this.targetNodeMode.bind(this);
-    this.algorithm = this.algorithm.bind(this);
-    this.clearBoard = this.clearBoard.bind(this);
-  }
-
-  // initialize the board state as an empty object
-  // and populate it with object { `y, x`: { visited: false }, }
-  componentDidMount() {
-    const board = {};
-    for (let i = 0; i < 15; i++) {
-      for (let j = 0; j < 30; j++) {
-        board[`${i},${j}`] = {
-          visited: false,
-        };
-      }
-    }
-    this.setState({ board });
-    // console.log(this.state);
-  }
-  // enable wall mode
-  addWallMode() {
-    this.setState(
-      {
-        entryNodeMode: false,
-        targetNodeMode: false,
-        wallMode: true,
-      },
-      function () {
-        // console.log('addwallmode', this.state);
-      }
-    );
-  }
-  entryNodeMode() {
-    this.setState(
-      {
-        entryNodeMode: true,
-        targetNodeMode: false,
-        wallMode: false,
-      },
-      function () {
-        // console.log('entrynodemode', this.state);
-      }
-    );
-  }
-  targetNodeMode() {
-    this.setState(
-      {
-        entryNodeMode: false,
-        targetNodeMode: true,
-        wallMode: false,
-      },
-      function () {
-        // console.log('targetnodemode', this.state);
-      }
-    );
-  }
-  handleMouseDown(property) {
-    if (this.state.wallMode === false) {
-      return;
-    }
-    const board = { ...this.state.board };
-    board[property].visited = true;
-    board[property].wall = true;
-    this.setState({ board: board, mouseIsPressed: true });
-  }
-  handleMouseEnter(property) {
-    if (this.state.wallMode === false || this.state.mouseIsPressed === false) {
-      return;
-    }
-    const board = { ...this.state.board };
-    board[property].visited = true;
-    board[property].wall = true;
-    this.setState({ board: board });
-  }
-  handleMouseUp() {
-    if (this.state.wallMode === false) return;
-    this.setState({ mouseIsPressed: false });
-  }
-  handleHead(coordinates) {
-    if (this.state.entryNodeMode === false) return;
-    this.setState({ headPosition: coordinates });
-  }
-  handleTarget(coordinates) {
-    if (this.state.targetNodeMode === false) return;
-    this.setState({ targetPosition: coordinates });
-  }
-  clearBoard() {
-    const board = {};
-    for (let i = 0; i < 15; i++) {
-      for (let j = 0; j < 30; j++) {
-        board[`${i},${j}`] = {
-          visited: false,
-        };
-      }
-    }
-    this.setState({
-      board: board,
-      mouseIsPressed: false,
-      entryNodeMode: false,
-      targetNodeMode: false,
-      wallMode: false,
-      path: [],
-      onFire: [],
-    });
-  }
-  algorithm() {
-    const { headPosition, targetPosition, board, path, onFire } = this.state;
-
-    if (path.length !== 0) {
-      const board = Object.assign(board);
+// react hook? 
+// turn it into a react component at all?
+Algorithm() {
+    if (this.state.path.length !== 0) {
+      const board = Object.assign(this.state.board);
       // console.log('1', JSON.stringify(board));
       for (const property in board) {
         // console.log(this.state.board[property])
@@ -141,16 +16,16 @@ class MainContainer extends Component {
       });
     }
 
-    const nodes = Object.assign(board);
-    const head = headPosition;
-    const target = targetPosition;
+    const nodes = Object.assign(this.state.board);
+    const head = this.state.headPosition;
+    const target = this.state.targetPosition;
     nodes[head].visited = true;
     nodes[head].previousNode = null;
 
     const queue = [{ [head]: nodes[head] }];
-    const fire = onFire.slice();
+    const fire = this.state.onFire.slice();
 
-    const helper = (queue, fire) => {
+    function helper(queue, fire) {
       // console.log('base queue every time helper is called', JSON.stringify(queue))
       // console.log('fire:', fire);
       for (let i = 0; i < queue.length; i++) {
@@ -167,16 +42,16 @@ class MainContainer extends Component {
       }
       const position = Object.keys(queue[0]);
       let string = position[0];
-      const arrPosition = position[0].split(",");
+      const arrPosition = position[0].split(',');
 
       for (let i = -1; i < 2; i++) {
         if (i !== 0) {
           const newPosition = `${Number(arrPosition[0]) + i},${Number(
             arrPosition[1]
-          )}`;
+          )}`; 
           const newPosition2 = `${Number(arrPosition[0])},${
             Number(arrPosition[1]) + i
-          }`;
+          }`; 
 
           if (
             nodes[newPosition] !== undefined &&
@@ -194,6 +69,7 @@ class MainContainer extends Component {
           ) {
             nodes[newPosition2].visited = true;
             fire.push(newPosition2);
+            // nodes[newPosition2].previousNode = {[position]: nodes[position]};
             nodes[newPosition2].previousNode = string;
             queue.push({ [newPosition2]: nodes[newPosition2] });
           }
@@ -201,17 +77,19 @@ class MainContainer extends Component {
       }
       queue.shift();
       // console.log('queue', queue);
-      if (queue.length === 0) return undefined;
+      if (queue.length === 0) {
+        return undefined;
+      }
 
       return helper(queue.slice(), fire);
-    };
+    }
 
     const array = helper(queue, fire);
     if (array === undefined) {
-      alert("No path found. Try again.");
+      alert('No path found. Try again.');
     }
     array.pop();
-    const path1 = array.reverse();
+    const path = array.reverse();
     // console.log('path', path);
     // console.log('fire', fire);
     fire.pop();
@@ -219,10 +97,10 @@ class MainContainer extends Component {
 
     setTimeout(
       function () {
-        console.log("settimeeout");
+        console.log('settimeeout');
         return this.setState({
           onFire: [],
-          path: path1,
+          path: path,
         });
       }.bind(this),
       finalFire.length * 25
@@ -231,16 +109,19 @@ class MainContainer extends Component {
   }
 
   render() {
-    const { board, onFire, path, headPosition, targetPosition } = this.state;
+    const { board } = this.state;
     const grid = [];
     for (const property in board) {
       let id = property;
-      if (onFire.includes(property) && onFire.length !== 0) {
+      if (
+        this.state.onFire.includes(property) &&
+        this.state.onFire.length !== 0
+      ) {
         grid.push(
           <button
             id={id}
             className={
-              "onFire" + " " + "anim-delay-" + onFire.indexOf(property)
+              'onFire' + ' ' + 'anim-delay-' + this.state.onFire.indexOf(property)
             }
             onMouseDown={() => {
               this.handleMouseDown(property);
@@ -257,11 +138,15 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (path.includes(property)) {
+      }
+
+      else if (this.state.path.includes(property)) {
         grid.push(
           <button
             id={id}
-            className={"path" + " " + "anim-delay-2-" + path.indexOf(property)}
+            className={
+              'path' + ' ' + 'anim-delay-2-' + this.state.path.indexOf(property)
+            }
             onMouseDown={() => {
               this.handleMouseDown(property);
             }}
@@ -277,7 +162,7 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (property === headPosition) {
+      } else if (property === this.state.headPosition) {
         grid.push(
           <button
             id={id}
@@ -297,7 +182,7 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (property === targetPosition) {
+      } else if (property === this.state.targetPosition) {
         grid.push(
           <button
             id={id}
@@ -376,4 +261,3 @@ class MainContainer extends Component {
     );
   }
 }
-export default MainContainer;

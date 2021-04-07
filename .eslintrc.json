@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "es2020": true,
-    "node": true
+    "node": true,
+    "es6": true,
   },
   "plugins": ["import", "react", "jsx-a11y"],
   "extends": [
@@ -11,6 +12,14 @@
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.test.js", "**/__tests__/**"],
+      "env": {
+        "jest": true
+      }
+    }
   ],
   "parserOptions": {
     "ecmaFeatures": {

@@ -27,7 +27,6 @@ class MainContainer extends Component {
   // and populate it with object { `y, x`: { visited: false }, }
   componentDidMount() {
     const board = {};
-    this.state.onFire = [];
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {

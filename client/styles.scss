@@ -102,9 +102,6 @@ h1 {
 	border-radius:0px;
 	border-style: groove;
 	opacity: 0.4;
-	// animation-direction:alternate;
-	// animation-play-state: running;
-	// animation-delay: 4s;
 }
 
 @keyframes addBlock{
@@ -115,7 +112,6 @@ h1 {
 @keyframes onFire {
 	0%   {background-color: transparent; opacity: 0}
 	100% {background-color: rgb(73, 190, 236); opacity: 0.3}
-
 }
 
 .onFire {
@@ -125,24 +121,11 @@ h1 {
 	animation-fill-mode: forwards;
 }
 
-// .path {
-// 	background-color: white;
-// 	animation:addBlock 0.1s;
-// 	animation-fill-mode: forwards;
-// 	border-radius:0px;
-// 	border-style: groove;
-// 	opacity: 1.0;
-// 	// animation-direction:alternate;
-// 	// animation-play-state: running;
-// 	// animation-delay: 4s;
-// }
-
 @for $i from 0 through 600 {
 	.anim-delay-#{$i} {
 			animation-delay: #{$i * 0.025}s;
 	}
 }
-
 
 @for $i from 0 through 200 {
 	.anim-delay-2-#{$i} {
@@ -150,37 +133,11 @@ h1 {
 	}
 }
 
-/* .anim-delay-500ms   { animation-delay: 0.5s }
-.anim-delay-1000ms  { animation-delay: 1s }
-.anim-delay-1500ms  { animation-delay: 1.5s }
-.anim-delay-2000ms  { animation-delay: 2s }
-.anim-delay-2500ms   { animation-delay: 2.5s }
-.anim-delay-3000ms  { animation-delay: 3s }
-.anim-delay-3500ms  { animation-delay: 3.5s }
-.anim-delay-4000ms  { animation-delay: 4s }
-.anim-delay-4500ms  { animation-delay: 4.5s }
-.anim-delay-5000ms  { animation-delay: 5s }
-.anim-delay-5500ms  { animation-delay: 5.5s }
-.anim-delay-6000ms  { animation-delay: 6s }
-.anim-delay-6500ms  { animation-delay: 6.5s }
-.anim-delay-7000ms  { animation-delay: 7s }
-.anim-delay-7500ms  { animation-delay: 7.5s }
-.anim-delay-8000ms  { animation-delay: 8s } */
-/* .e {
-	height: 10fr;
-	width: 10fr;
-	background-color: rgb(253, 184, 55);
-   -webkit-animation: load 5s infinite;
-   animation: load 5s infinite;
-    display:none;
-} */
-
 .navbarContainer {
 	display:flex;
 	flex-direction: row;
 	justify-content:center;
 	align-items:center;
-
 }
 
 .navbarButton {
@@ -192,16 +149,6 @@ h1 {
 .MuiButtonBase-root.MuiButton-root.MuiButton-text{
 	padding-right: 50px;
 	padding-left: 50px;
-	// text-align: center;
-	// font-family: 'Dela Gothic';
-
 	font-size: 20px; 
 	text-transform: uppercase;
 }
-
-
-/*
-className: "MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary navbarContainer MuiPaper-elevation4"
-*/
-
-/* https://cdn.shopify.com/s/files/1/1061/1924/products/Sunglasses_Emoji_be26cc0a-eef9-49e5-8da2-169bb417cc0b_large.png?v=1571606036 */

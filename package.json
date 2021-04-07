@@ -6,8 +6,13 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "NODE_ENV=development webpack serve --hot",
-    "start": "cross-env NODE_ENV=development webpack serve --open --hot --inline --progress",
-    "test": "echo Error: we don't have a test specified yet"
+    "start": "cross-env NODE_ENV=development webpack serve --hot --inline --progress",
+    "test": "jest --verbose"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -30,16 +35,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
+    "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
+    "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.23.0",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
     "node-sass": "^5.0.0",
     "redux-devtools-extension": "^2.13.9",
     "sass": "^1.32.8",

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Navbar from '../Navbar.jsx';
-import '../styles.scss';
+import React, { Component } from "react";
+import Navbar from "../Navbar.jsx";
+import "../styles.scss";
 
 class MainContainer extends Component {
   constructor(props) {
@@ -11,8 +11,8 @@ class MainContainer extends Component {
       entryNodeMode: false,
       targetNodeMode: false,
       wallMode: false,
-      headPosition: '0,0',
-      targetPosition: '9,9',
+      headPosition: "0,0",
+      targetPosition: "9,9",
       path: [],
       onFire: [],
     };
@@ -167,7 +167,7 @@ class MainContainer extends Component {
       }
       const position = Object.keys(queue[0]);
       let string = position[0];
-      const arrPosition = position[0].split(',');
+      const arrPosition = position[0].split(",");
 
       for (let i = -1; i < 2; i++) {
         if (i !== 0) {
@@ -208,7 +208,7 @@ class MainContainer extends Component {
 
     const array = helper(queue, fire);
     if (array === undefined) {
-      alert('No path found. Try again.');
+      alert("No path found. Try again.");
     }
     array.pop();
     const path1 = array.reverse();
@@ -219,7 +219,7 @@ class MainContainer extends Component {
 
     setTimeout(
       function () {
-        console.log('settimeeout');
+        console.log("settimeeout");
         return this.setState({
           onFire: [],
           path: path1,
@@ -240,7 +240,7 @@ class MainContainer extends Component {
           <button
             id={id}
             className={
-              'onFire' + ' ' + 'anim-delay-' + onFire.indexOf(property)
+              "onFire" + " " + "anim-delay-" + onFire.indexOf(property)
             }
             onMouseDown={() => {
               this.handleMouseDown(property);
@@ -261,7 +261,7 @@ class MainContainer extends Component {
         grid.push(
           <button
             id={id}
-            className={'path' + ' ' + 'anim-delay-2-' + path.indexOf(property)}
+            className={"path" + " " + "anim-delay-2-" + path.indexOf(property)}
             onMouseDown={() => {
               this.handleMouseDown(property);
             }}

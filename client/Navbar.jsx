@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import React, { Component } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 // const Navbar = () => {
-  
+
 // }
 class Navbar extends Component {
   constructor(props) {
@@ -27,11 +27,46 @@ class Navbar extends Component {
             {/* // className={classes.title} */}
             {/* // > */}
             {/* // </Typography> */}
-            <Button className = 'navbarButton' onClick={this.props.entryNodeMode} id="startNode" color="inherit">Set Start Node</Button>
-            <Button className = 'navbarButton' onClick={this.props.targetNodeMode} id="targetNode" color="inherit">Set Target Node</Button>
-            <Button className = 'navbarButton' onClick={this.props.addWallMode} id="wallNode" color="inherit">Add Walls</Button>
-            <Button className = 'navbarButton' onClick={this.props.clearBoard} id="clearBoard" color="inherit">Clear Board</Button>
-            <Button className = 'navbarButton' onClick={this.props.runAlgo} id="algo" color="inherit">Run Algorithm</Button>
+            <Button
+              className="navbarButton"
+              onClick={this.props.entryNodeMode}
+              id="startNode"
+              color="inherit"
+            >
+              Set Start Node
+            </Button>
+            <Button
+              className="navbarButton"
+              onClick={this.props.targetNodeMode}
+              id="targetNode"
+              color="inherit"
+            >
+              Set Target Node
+            </Button>
+            <Button
+              className="navbarButton"
+              onClick={this.props.addWallMode}
+              id="wallNode"
+              color="inherit"
+            >
+              Add Walls
+            </Button>
+            <Button
+              className="navbarButton"
+              onClick={this.props.clearBoard}
+              id="clearBoard"
+              color="inherit"
+            >
+              Clear Board
+            </Button>
+            <Button
+              className="navbarButton"
+              onClick={this.props.runAlgo}
+              id="algo"
+              color="inherit"
+            >
+              Run Algorithm
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -39,10 +74,9 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar; 
+export default Navbar;
 
-
-// from kevin's 
+// from kevin's
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     flexGrow: 1,
@@ -64,7 +98,7 @@ export default Navbar;
 //             Path Finder
 //           </Typography>
 //           <Button id="startNode" color="inherit">Start Node</Button>
-//           <Button id="targetNode" color="inherit">Target Node</Button>          
+//           <Button id="targetNode" color="inherit">Target Node</Button>
 //           <Button id="wallNode" color="inherit">Add Wall</Button>
 //           <Button id="clearBoard" color="inherit">Clear Board</Button>
 //           <Button id="runAlgo" color="inherit">Run Algo</Button>

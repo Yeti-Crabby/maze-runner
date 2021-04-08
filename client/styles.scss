@@ -1,154 +1,164 @@
 .background {
-	// background-image: url('https://wallpapercave.com/wp/wp6424612.jpg');
-	// background-repeat: no-repeat;
-	// background-position: center;
-	// background-size: 1200px 900px;
-	height: 100fr;
+  // background-image: url('https://wallpapercave.com/wp/wp6424612.jpg');
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: 1200px 900px;
+  height: 100fr;
 }
 
 button {
-	border-radius: 0px;
-	width: 3em;
-	height: 3em;
-	opacity: 0.6;
+  border-radius: 0px;
+  width: 3em;
+  height: 3em;
+  opacity: 0.6;
 }
 
-
 body {
-	background-color: #1f1f1f;
+  background-color: #1f1f1f;
 }
 
 p {
-	margin-block-start: 0.1em;
-	margin-block-end: 0.1em;
-	font-size: 40px;
-	font-weight: bold;
-	color: white;
-	text-align: center;
-	font-family: 'Suez One', serif;
+  margin-block-start: 0.1em;
+  margin-block-end: 0.1em;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  font-family: "Suez One", serif;
 }
 
 h1 {
-	background-color: #1f1f1f;
-	color: white;
-	text-align: center;
-	font-family: 'Suez One', serif;
+  background-color: #1f1f1f;
+  color: white;
+  text-align: center;
+  font-family: "Suez One", serif;
 }
 
 .gap {
-	padding: 0.3em;
+  padding: 0.3em;
 }
 
 .gridContainer {
-	height: 50%;
-	display: grid;
-	// border-radius: 5px;
-	padding: 0.5em;
-	grid-template-columns: repeat(30, 1fr);
+  height: 50%;
+  display: grid;
+  // border-radius: 5px;
+  padding: 0.5em;
+  grid-template-columns: repeat(30, 1fr);
 
-	margin: auto;
-	justify-content: center;
+  margin: auto;
+  justify-content: center;
 
-	/* repeat(x, auto); x needs to match the row numbers from MainContainer.jsx*/
-	/* grid-template-rows: repeat(30, auto);  */
-	grid-column-gap: 0px;
-	grid-row-gap: 0px;
-	column-gap: 0px;
+  /* repeat(x, auto); x needs to match the row numbers from MainContainer.jsx*/
+  /* grid-template-rows: repeat(30, auto);  */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  column-gap: 0px;
 
-	/* viewport; might have to be replaced */
-	width: 60vw;
-	height: 65vh;
+  /* viewport; might have to be replaced */
+  width: 60vw;
+  height: 65vh;
 }
 
 @media only screen and (max-width: 768px) {
-	/* For mobile phones: */
-	[class*="col-"] {
-	  width: 100%;
-	}
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
 }
 
 .wallGrid {
-	background-color: black;
-	opacity: 0.3;
+  background-color: black;
+  opacity: 0.3;
 }
 .regularGrid {
-	background-color:white;
+  background-color: white;
 }
 
 .head {
-	background-color: rgb(41, 127, 197);
-	background: url('https://media.tenor.com/images/46b8aa3319ea36727ca0b0dc702cbcbd/tenor.gif');
-	// background: url('https://i1.sndcdn.com/avatars-000233416099-iokp17-t500x500.jpg');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	opacity: 1.0;
+  background-color: rgb(41, 127, 197);
+  background: url("https://media.tenor.com/images/46b8aa3319ea36727ca0b0dc702cbcbd/tenor.gif");
+  // background: url('https://i1.sndcdn.com/avatars-000233416099-iokp17-t500x500.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
 }
 
 .target {
-	/* background: rgb(101, 101, 204); */
-	background: url('https://yt3.ggpht.com/ytc/AAUvwnh_qb-oVGuDhNc7IPtKIXXUTzH56th0i8hU5ieibFA=s900-c-k-c0x00ffffff-no-rj');
-	// background: url('https://i.pinimg.com/originals/6d/b0/32/6db0321da5910a614765c4f756677f5e.png');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	opacity: 1.0;
+  /* background: rgb(101, 101, 204); */
+  background: url("https://yt3.ggpht.com/ytc/AAUvwnh_qb-oVGuDhNc7IPtKIXXUTzH56th0i8hU5ieibFA=s900-c-k-c0x00ffffff-no-rj");
+  // background: url('https://i.pinimg.com/originals/6d/b0/32/6db0321da5910a614765c4f756677f5e.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
 }
 
 .path {
-	background-color: white;
-	animation:addBlock 0.2s;
-	animation-fill-mode: forwards;
-	border-radius:0px;
-	border-style: groove;
-	opacity: 0.4;
+  background-color: white;
+  animation: addBlock 0.2s;
+  animation-fill-mode: forwards;
+  border-radius: 0px;
+  border-style: groove;
+  opacity: 0.4;
 }
 
-@keyframes addBlock{
-	0%   {background-color: white;}
-  100% {background-color: rgb(168, 15, 15); opacity: 0.9}
+@keyframes addBlock {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: rgb(168, 15, 15);
+    opacity: 0.9;
+  }
 }
 
 @keyframes onFire {
-	0%   {background-color: transparent; opacity: 0}
-	100% {background-color: rgb(73, 190, 236); opacity: 0.3}
+  0% {
+    background-color: transparent;
+    opacity: 0;
+  }
+  100% {
+    background-color: rgb(73, 190, 236);
+    opacity: 0.3;
+  }
 }
 
 .onFire {
-	background-color: white;
-	animation-name: onFire !important;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
+  background-color: white;
+  animation-name: onFire !important;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
 }
 
 @for $i from 0 through 600 {
-	.anim-delay-#{$i} {
-			animation-delay: #{$i * 0.025}s;
-	}
+  .anim-delay-#{$i} {
+    animation-delay: #{$i * 0.025}s;
+  }
 }
 
 @for $i from 0 through 200 {
-	.anim-delay-2-#{$i} {
-			animation-delay: #{$i * 0.1}s;
-	}
+  .anim-delay-2-#{$i} {
+    animation-delay: #{$i * 0.1}s;
+  }
 }
 
 .navbarContainer {
-	display:flex;
-	flex-direction: row;
-	justify-content:center;
-	align-items:center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbarButton {
-	opacity: 1.0;
-	width: auto;
-	height: auto;
+  opacity: 1;
+  width: auto;
+  height: auto;
 }
 
-.MuiButtonBase-root.MuiButton-root.MuiButton-text{
-	padding-right: 50px;
-	padding-left: 50px;
-	font-size: 20px; 
-	text-transform: uppercase;
+.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+  padding-right: 50px;
+  padding-left: 50px;
+  font-size: 20px;
+  text-transform: uppercase;
 }

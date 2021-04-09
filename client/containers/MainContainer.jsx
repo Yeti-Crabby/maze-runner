@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../Navbar.jsx";
-import "../styles.scss";
+import "../../client/styles.scss";
 
 class MainContainer extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class MainContainer extends Component {
   // and populate it with object { `y, x`: { visited: false }, }
   componentDidMount() {
     const board = {};
+    //create the grid (height 15 x width 30)
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {
@@ -34,10 +35,11 @@ class MainContainer extends Component {
         };
       }
     }
-    this.setState({ board });
+    this.setState({ board }); //set boards value
     // console.log(this.state);
   }
-  // enable wall mode
+
+  // enable wall mode - allows you to make walls
   addWallMode() {
     this.setState(
       {
@@ -50,6 +52,7 @@ class MainContainer extends Component {
       }
     );
   }
+  // enable entryNode - starting node
   entryNodeMode() {
     this.setState(
       {
@@ -58,10 +61,11 @@ class MainContainer extends Component {
         wallMode: false,
       },
       function () {
-        // console.log('entrynodemode', this.state);
+        console.log("entrynodemode", this.state);
       }
     );
   }
+  // enable targetNode - target node
   targetNodeMode() {
     this.setState(
       {
@@ -74,19 +78,19 @@ class MainContainer extends Component {
       }
     );
   }
+  // EVENTS ----------------------------------------------------------------
   handleMouseDown(property) {
-    if (this.state.wallMode === false) {
-      return;
-    }
+    if (this.state.wallMode === false) return; // if not in wall mode return
+
     const board = { ...this.state.board };
     board[property].visited = true;
     board[property].wall = true;
     this.setState({ board: board, mouseIsPressed: true });
   }
   handleMouseEnter(property) {
-    if (this.state.wallMode === false || this.state.mouseIsPressed === false) {
+    if (this.state.wallMode === false || this.state.mouseIsPressed === false)
       return;
-    }
+
     const board = { ...this.state.board };
     board[property].visited = true;
     board[property].wall = true;
@@ -123,75 +127,76 @@ class MainContainer extends Component {
       onFire: [],
     });
   }
+  //ALGORITHM ----------------------------------------------------------------
   algorithm() {
     const { headPosition, targetPosition, board, path, onFire } = this.state;
+    // check if theres a path?
 
-    if (path.length !== 0) {
-      const board = Object.assign(board);
-      // console.log('1', JSON.stringify(board));
+    if (this.state.path.length !== 0) {
+      const board = Object.assign(this.state.board); //assign state to board
+
       for (const property in board) {
-        // console.log(this.state.board[property])
-        board[property].visited = false;
-        if (board[property].previousNode) delete board[property].previousNode;
+        // console.log("board:", board);  //board values look like {visited: true, previousNode: "0,0"}
+        board[property].visited = false; //set all visited properties to false
+        if (board[property].previousNode) delete board[property].previousNode; // Reset previous node
       }
-      // console.log('2', JSON.stringify(board));
-      this.setState({
-        board: board,
-        path: [],
-      });
+      this.setState({ board: board, path: [] });
     }
 
-    const nodes = Object.assign(board);
-    const head = headPosition;
-    const target = targetPosition;
-    nodes[head].visited = true;
-    nodes[head].previousNode = null;
+    const nodes = Object.assign(this.state.board); // copy of board state
+    const head = headPosition; // start position  "x,y"
+    const target = targetPosition; // target position "x,y"
 
-    const queue = [{ [head]: nodes[head] }];
-    const fire = onFire.slice();
+    nodes[head].visited = true; // assign visited head position to true {visited: true}
+    nodes[head].previousNode = null; // assign previous node to null {previousNode: null}
 
+    const queue = [{ [head]: nodes[head] }]; //  FIFO
+    const fire = this.state.onFire.slice(); // assign fire to a shallow copy of the onFire array
+
+    //takes in 2 arrays fire: array of strings ["0,0"] - queue: array of objects [{0,0}]
+    //helper finding shortest path first
+    // HELPER ----------------------------------------------------------------
     const helper = (queue, fire) => {
-      // console.log('base queue every time helper is called', JSON.stringify(queue))
-      // console.log('fire:', fire);
+      // iterate through queue and build the path once target is found
+      // queue -> [0: {1,0: {visited: true, previousNode: "0,0"}}]
       for (let i = 0; i < queue.length; i++) {
+        //if target found
         if (Object.keys(queue[i]) == target) {
           const path = [];
+          // assign previously checked node
           let previousNode = queue[i][target].previousNode;
+
           while (previousNode !== null) {
-            path.push(previousNode);
+            path.push(previousNode); // create the path with while loop
             previousNode = nodes[previousNode].previousNode;
           }
-          // console.log('path1', path);
           return path;
         }
       }
-      const position = Object.keys(queue[0]);
-      let string = position[0];
-      const arrPosition = position[0].split(",");
+      const position = Object.keys(queue[0]); // position = ["1,0"]
+      let string = position[0]; // string = "0,1"
+      const arrPosition = position[0].split(","); // arrPosition = ["0", "0"]
 
+      //iterate to find multiple x,y positions for FIRE 🔥️
       for (let i = -1; i < 2; i++) {
         if (i !== 0) {
+          // newPosition & newPosition2 build x,y positions
           const newPosition = `${Number(arrPosition[0]) + i},${Number(
             arrPosition[1]
           )}`;
           const newPosition2 = `${Number(arrPosition[0])},${
             Number(arrPosition[1]) + i
           }`;
-
-          if (
-            nodes[newPosition] !== undefined &&
-            nodes[newPosition].visited === false
-          ) {
-            nodes[newPosition].visited = true;
+          // *I think we can add condition here to check if node is a wall ?
+          // check if position exists and visited equals false
+          if (nodes[newPosition] && nodes[newPosition].visited === false) {
+            nodes[newPosition].visited = true; // if the node exists and it has not been visited, reassign visited to true
             fire.push(newPosition);
             // console.log("nodes[newPosition", nodes[newPosition])
             nodes[newPosition].previousNode = string;
             queue.push({ [newPosition]: nodes[newPosition] });
           }
-          if (
-            nodes[newPosition2] !== undefined &&
-            nodes[newPosition2].visited === false
-          ) {
+          if (nodes[newPosition2] && nodes[newPosition2].visited === false) {
             nodes[newPosition2].visited = true;
             fire.push(newPosition2);
             nodes[newPosition2].previousNode = string;
@@ -202,24 +207,22 @@ class MainContainer extends Component {
       queue.shift();
       // console.log('queue', queue);
       if (queue.length === 0) return undefined;
-
+      // recursive call for path find- takes copy of queue and fire
       return helper(queue.slice(), fire);
     };
-
     const array = helper(queue, fire);
+    // console.log("array:", array);
     if (array === undefined) {
       alert("No path found. Try again.");
     }
     array.pop();
-    const path1 = array.reverse();
-    // console.log('path', path);
-    // console.log('fire', fire);
-    fire.pop();
-    const finalFire = fire.slice();
+    const path1 = array.reverse(); //ensures animation path plays from start-node to target
+    fire.pop(); //removes fire piece that hits target?
+    const finalFire = fire.slice(); // assigns a copy of fire for state
 
+    //resets fire animation and triggers final fire path?
     setTimeout(
       function () {
-        console.log("settimeeout");
         return this.setState({
           onFire: [],
           path: path1,
@@ -227,20 +230,85 @@ class MainContainer extends Component {
       }.bind(this),
       finalFire.length * 25
     );
+    // updates state with path and finalFire values
+    console.log("tile", this.props.tile);
     this.setState({ path: path, onFire: finalFire });
+  }
+
+  cloneMatrix(m) {
+    const clone = new Array(m.length);
+    for (let i = 0; i < m.length; ++i) {
+      clone[i] = m[i].slice(0);
+    }
+    return clone;
+  }
+  dropTile({ x, y }) {
+    //clone previous matrix state in order to alter the copy
+    //then set the tiles to the copy
+    setTiles((prev) => {
+      const clone = cloneMatrix(prev);
+      const tile = {
+        //pull in values
+        ...clone[y][x],
+        v: activeTile,
+      };
+      //swap values from clone to active tile
+      clone[y][x] = tile;
+      return clone;
+    });
   }
 
   render() {
     const { board, onFire, path, headPosition, targetPosition } = this.state;
+
     const grid = [];
+    let className = ""; //create className for button below
+    let style;
+
+    //assign classNames to each coordinate
     for (const property in board) {
+      //  store property value 0 , 0 in id
       let id = property;
-      if (onFire.includes(property) && onFire.length !== 0) {
+      //  SET className BASED ON PROPERTY condition
+      if (board[property].wall === true) {
+        //keep walls up when re-running algorithm
+        grid.push(
+          <button
+            id={id}
+            className="wallGrid"
+            style={{
+              borderBottom: "1px solid #333",
+              borderRight: "1px solid #333",
+              background: `url(../../../../../public/rpg-nature-tileset/spring.png) -${this.props.activeTile.x}px -${this.props.activeTile.y}px no-repeat`,
+            }}
+            key={id}
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
+      } else if (
+        this.state.onFire.includes(property) &&
+        this.state.onFire.length !== 0
+      ) {
         grid.push(
           <button
             id={id}
             className={
-              "onFire" + " " + "anim-delay-" + onFire.indexOf(property)
+              "onFire" +
+              " " +
+              "anim-delay-" +
+              this.state.onFire.indexOf(property)
             }
             onMouseDown={() => {
               this.handleMouseDown(property);
@@ -257,11 +325,14 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (path.includes(property)) {
+        // }
+      } else if (this.state.path.includes(property)) {
         grid.push(
           <button
             id={id}
-            className={"path" + " " + "anim-delay-2-" + path.indexOf(property)}
+            className={
+              "path" + " " + "anim-delay-2-" + this.state.path.indexOf(property)
+            }
             onMouseDown={() => {
               this.handleMouseDown(property);
             }}
@@ -277,7 +348,7 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (property === headPosition) {
+      } else if (property === this.state.headPosition) {
         grid.push(
           <button
             id={id}
@@ -297,31 +368,11 @@ class MainContainer extends Component {
             }}
           ></button>
         );
-      } else if (property === targetPosition) {
+      } else if (property === this.state.targetPosition) {
         grid.push(
           <button
             id={id}
             className="target"
-            onMouseDown={() => {
-              this.handleMouseDown(property);
-            }}
-            onMouseOver={() => {
-              this.handleMouseEnter(property);
-            }}
-            onMouseUp={() => {
-              this.handleMouseUp(property);
-            }}
-            onClick={() => {
-              this.handleHead(property);
-              this.handleTarget(property);
-            }}
-          ></button>
-        );
-      } else if (board[property].wall === true) {
-        grid.push(
-          <button
-            id={id}
-            className="wallGrid"
             onMouseDown={() => {
               this.handleMouseDown(property);
             }}
@@ -359,6 +410,7 @@ class MainContainer extends Component {
         );
       }
     }
+
     return (
       <div>
         <div className="navbar">

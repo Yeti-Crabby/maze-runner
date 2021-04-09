@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../Navbar.jsx";
-import "../styles.scss";
+import "../../client/styles.scss";
 
 class MainContainer extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class MainContainer extends Component {
   // and populate it with object { `y, x`: { visited: false }, }
   componentDidMount() {
     const board = {};
-
+    //create the grid (height 15 x width 30)
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 30; j++) {
         board[`${i},${j}`] = {
@@ -131,6 +131,7 @@ class MainContainer extends Component {
   algorithm() {
     const { headPosition, targetPosition, board, path, onFire } = this.state;
     // check if theres a path?
+
     if (this.state.path.length !== 0) {
       const board = Object.assign(this.state.board); //assign state to board
 
@@ -144,7 +145,7 @@ class MainContainer extends Component {
 
     const nodes = Object.assign(this.state.board); // copy of board state
     const head = headPosition; // start position  "x,y"
-    const target = targetPosition; // target position "y,x"
+    const target = targetPosition; // target position "x,y"
 
     nodes[head].visited = true; // assign visited head position to true {visited: true}
     nodes[head].previousNode = null; // assign previous node to null {previousNode: null}
@@ -152,11 +153,14 @@ class MainContainer extends Component {
     const queue = [{ [head]: nodes[head] }]; //  FIFO
     const fire = this.state.onFire.slice(); // assign fire to a shallow copy of the onFire array
 
-    //takes in 2 arrays fire: array of strings ["0,0"] - queue: array of objects {0,0}
+    //takes in 2 arrays fire: array of strings ["0,0"] - queue: array of objects [{0,0}]
     //helper finding shortest path first
+    // HELPER ----------------------------------------------------------------
     const helper = (queue, fire) => {
-      // iterate through queue and return target coordinates
+      // iterate through queue and build the path once target is found
+      // queue -> [0: {1,0: {visited: true, previousNode: "0,0"}}]
       for (let i = 0; i < queue.length; i++) {
+        //if target found
         if (Object.keys(queue[i]) == target) {
           const path = [];
           // assign previously checked node
@@ -173,7 +177,7 @@ class MainContainer extends Component {
       let string = position[0]; // string = "0,1"
       const arrPosition = position[0].split(","); // arrPosition = ["0", "0"]
 
-      //iterate to find multiple x,y positions
+      //iterate to find multiple x,y positions for FIRE 🔥️
       for (let i = -1; i < 2; i++) {
         if (i !== 0) {
           // newPosition & newPosition2 build x,y positions
@@ -185,20 +189,14 @@ class MainContainer extends Component {
           }`;
           // *I think we can add condition here to check if node is a wall ?
           // check if position exists and visited equals false
-          if (
-            nodes[newPosition] !== undefined &&
-            nodes[newPosition].visited === false
-          ) {
+          if (nodes[newPosition] && nodes[newPosition].visited === false) {
             nodes[newPosition].visited = true; // if the node exists and it has not been visited, reassign visited to true
             fire.push(newPosition);
             // console.log("nodes[newPosition", nodes[newPosition])
             nodes[newPosition].previousNode = string;
             queue.push({ [newPosition]: nodes[newPosition] });
           }
-          if (
-            nodes[newPosition2] !== undefined &&
-            nodes[newPosition2].visited === false
-          ) {
+          if (nodes[newPosition2] && nodes[newPosition2].visited === false) {
             nodes[newPosition2].visited = true;
             fire.push(newPosition2);
             nodes[newPosition2].previousNode = string;
@@ -233,7 +231,31 @@ class MainContainer extends Component {
       finalFire.length * 25
     );
     // updates state with path and finalFire values
+    console.log("tile", this.props.tile);
     this.setState({ path: path, onFire: finalFire });
+  }
+
+  cloneMatrix(m) {
+    const clone = new Array(m.length);
+    for (let i = 0; i < m.length; ++i) {
+      clone[i] = m[i].slice(0);
+    }
+    return clone;
+  }
+  dropTile({ x, y }) {
+    //clone previous matrix state in order to alter the copy
+    //then set the tiles to the copy
+    setTiles((prev) => {
+      const clone = cloneMatrix(prev);
+      const tile = {
+        //pull in values
+        ...clone[y][x],
+        v: activeTile,
+      };
+      //swap values from clone to active tile
+      clone[y][x] = tile;
+      return clone;
+    });
   }
 
   render() {
@@ -241,45 +263,154 @@ class MainContainer extends Component {
 
     const grid = [];
     let className = ""; //create className for button below
+    let style;
 
+    //assign classNames to each coordinate
     for (const property in board) {
       //  store property value 0 , 0 in id
       let id = property;
       //  SET className BASED ON PROPERTY condition
-      if (onFire.includes(property) && onFire.length !== 0) {
-        className = "onFire" + " " + "anim-delay-" + onFire.indexOf(property);
-      } else if (path.includes(property)) {
-        className = "path" + " " + "anim-delay-2-" + path.indexOf(property);
-      } else if (property === headPosition) {
-        className = "head";
-      } else if (property === targetPosition) {
-        className = "target";
-      } else if (board[property].wall === true) {
-        className = "wallGrid";
+      if (board[property].wall === true) {
+        //keep walls up when re-running algorithm
+        grid.push(
+          <button
+            id={id}
+            className="wallGrid"
+            style={{
+              borderBottom: "1px solid #333",
+              borderRight: "1px solid #333",
+              background: `url(../../../../../public/rpg-nature-tileset/spring.png) -${this.props.activeTile.x}px -${this.props.activeTile.y}px no-repeat`,
+            }}
+            key={id}
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
+      } else if (
+        this.state.onFire.includes(property) &&
+        this.state.onFire.length !== 0
+      ) {
+        grid.push(
+          <button
+            id={id}
+            className={
+              "onFire" +
+              " " +
+              "anim-delay-" +
+              this.state.onFire.indexOf(property)
+            }
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
+        // }
+      } else if (this.state.path.includes(property)) {
+        grid.push(
+          <button
+            id={id}
+            className={
+              "path" + " " + "anim-delay-2-" + this.state.path.indexOf(property)
+            }
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
+      } else if (property === this.state.headPosition) {
+        grid.push(
+          <button
+            id={id}
+            className="head"
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
+      } else if (property === this.state.targetPosition) {
+        grid.push(
+          <button
+            id={id}
+            className="target"
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
       } else {
-        className = "regularGrid";
+        grid.push(
+          <button
+            id={id}
+            className="regularGrid"
+            onMouseDown={() => {
+              this.handleMouseDown(property);
+            }}
+            onMouseOver={() => {
+              this.handleMouseEnter(property);
+            }}
+            onMouseUp={() => {
+              this.handleMouseUp(property);
+            }}
+            onClick={() => {
+              this.handleHead(property);
+              this.handleTarget(property);
+            }}
+          ></button>
+        );
       }
-      //Push button with matching className
-      grid.push(
-        <button
-          id={id}
-          className={className}
-          onMouseDown={() => {
-            this.handleMouseDown(property);
-          }}
-          onMouseOver={() => {
-            this.handleMouseEnter(property);
-          }}
-          onMouseUp={() => {
-            this.handleMouseUp(property);
-          }}
-          onClick={() => {
-            this.handleHead(property);
-            this.handleTarget(property);
-          }}
-        ></button>
-      );
     }
+
     return (
       <div>
         <div className="navbar">

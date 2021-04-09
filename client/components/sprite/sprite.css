@@ -1,0 +1,6 @@
+.sprite__skin{
+  display: "inline-block",
+  height: "32px",
+  width: "32px",
+  background: "url(./skins/m1.png)",
+}

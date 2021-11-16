@@ -1,4 +1,5 @@
 # Mazerunner
+![Mazerunner - Animated gif demo](demo.gif)
 
 ## Overview
 - Mazerunner is a pathfinder visualizer using principles from Dijkstra’s algorithm and breadth first search
@@ -8,6 +9,7 @@
 - Add start and end points to the grid
 - Draw walls between start and end points
 - Click RUN ALGORITHM to find shortest path between start and end points
+- Click Clear Board to reset the board
 - Have fun!
 
 ### Built with

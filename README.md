@@ -12,7 +12,7 @@
 - Click Clear Board to reset the board
 - Have fun!
 
-### Built with
+## Built with
 - [React](https://reactjs.org/) - JS Library
 - [Material UI](https://mui.com/) - React UI Library
 - [SCSS](https://sass-lang.com/) - CSS Extension

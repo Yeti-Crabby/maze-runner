@@ -1,4 +1,4 @@
-# Mazerunner
+# MAZE Runner
 ![Mazerunner - Animated gif demo](demo.gif)
 
 ## Overview

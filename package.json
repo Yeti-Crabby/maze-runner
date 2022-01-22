@@ -1,8 +1,8 @@
 {
-  "homepage": "https://vin-vu.github.io/maze-runner/",
-  "name": "scratch-project",
+  "homepage": "https://github.com/Yeti-Crabby/maze-runner",
+  "name": "maze-runner",
   "version": "1.0.0",
-  "description": "'Scratch Project'",
+  "description": "MAZE Runner",
   "main": "index.js",
   "scripts": {
     "predeploy": "npm run build",
